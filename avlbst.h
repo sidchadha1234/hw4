@@ -493,12 +493,9 @@ void AVLTree<Key, Value>:: remove(const Key& key)
 //update diff apporpriately
   AVLNode<Key,Value>* p = temp->getParent();
   if(p!=NULL){
-    if(p->getLeft() == temp){
-       diff = 1;
-    }
-    else if(p->getRight() == temp){
-      diff = -1;
-    }
+    if(p->getLeft() == temp) diff = 1;
+    else if(p->getRight() == temp) diff = -1;
+    
   }
 
 //explanation: 
@@ -508,35 +505,26 @@ void AVLTree<Key, Value>:: remove(const Key& key)
 //change the pointers of p to point to child
 
   AVLNode<Key, Value>* child;
-    if(temp->getRight()!=NULL && temp->getLeft()==NULL){
-      child = temp->getRight();
-    }
-    else if(temp->getRight()==NULL && temp->getLeft()!=NULL){
-        child = temp->getLeft();
-    }
-    else if(temp->getRight() == NULL && temp->getLeft() == NULL){
-      child = NULL;
-    }
+    if(temp->getRight()!=NULL && temp->getLeft()==NULL) child = temp->getRight();
+    
+    else if(temp->getRight()==NULL && temp->getLeft()!=NULL) child = temp->getLeft();
+    
+    else if(temp->getRight() == NULL && temp->getLeft() == NULL) child = NULL;
+    
 
 
     AVLNode<Key, Value> *t = temp->getParent();
-    if(t==NULL){
+    if(t!=NULL){
+      if(temp->getParent()->getRight()==temp) t->setRight(child); 
+      else if(temp->getParent()->getLeft()==temp) t->setLeft(child);
+    }
+    else{
       this->root_ = child;
     }
 
-    else{
-      if(temp->getParent()->getRight()==temp){
-        t->setRight(child);
-      }
-      else if(temp->getParent()->getLeft()==temp){
-        t->setLeft(child);
-      }
-    }
-
 //if child is not null set the parent of child to t
-  if(child !=NULL){
-      child->setParent(t);
-  }
+  if(child !=NULL) child->setParent(t);
+  
   //delete the in between(temp) and removefix it 
   delete temp;
   removeFix(p, diff);
