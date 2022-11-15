@@ -526,9 +526,11 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     
     else if(r->getRight()==NULL && r->getLeft()!=NULL){
         temp = r->getLeft();
-
     }
     //if there are none its null
+
+
+
     else if(r->getRight() == NULL && r->getLeft() == NULL){
       temp = NULL;
     }
